@@ -1,7 +1,7 @@
 import streamlit as st
 import os
 import subprocess
-from langchain.document_loaders import PyPDFLoader  # Changed to PyPDFLoader
+from langchain_community.document_loaders import PDFMinerLoader
 from langchain_community.embeddings import SentenceTransformerEmbeddings
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_community.vectorstores import FAISS
@@ -36,6 +36,7 @@ def get_ollama_models():
 # Sidebar configuration
 st.sidebar.header("Settings")
 
+# If Ollama integration is available, let the user choose the model type.
 if ollama_integration_available:
     model_type = st.sidebar.radio("Select Model Type", options=["HuggingFace", "Ollama"])
 else:
@@ -64,13 +65,12 @@ st.sidebar.markdown("[LinkedIn](https://www.linkedin.com/in/dky7376/)")
 
 @st.cache_resource
 def initialize_qa_chain(filepath, model_type, checkpoint):
-    # Use PyPDFLoader instead of PDFMinerLoader to avoid metadata issues.
-    loader = PyPDFLoader(filepath)
+    loader = PDFMinerLoader(filepath)
     documents = loader.load()
     text_splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=500)
     splits = text_splitter.split_documents(documents)
 
-    # Create embeddings 
+    # Create embeddings
     embeddings = SentenceTransformerEmbeddings(model_name="all-MiniLM-L6-v2")
     vectordb = FAISS.from_documents(splits, embeddings)
 
@@ -143,3 +143,4 @@ if prompt := st.chat_input("Type your question here..."):
     # Append and display the assistant response
     st.session_state.messages.append({"role": "assistant", "content": response})
     st.chat_message("assistant").write(response)
+
