@@ -22,37 +22,16 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-# Inject custom CSS for a modern, minimalist UI with light/dark modes and smooth animations.
+# Inject minimal custom CSS for a clean UI.
 custom_css = """
 <style>
-    /* Base styling and font */
-    html, body {
+    /* Base styling */
+    body {
         font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
         margin: 0;
         padding: 0;
-        transition: background 0.3s, color 0.3s;
-    }
-    /* Light mode */
-    @media (prefers-color-scheme: light) {
-        body {
-            background-color: #f5f5f5;
-            color: #222;
-        }
-        .chat-message {
-            background-color: #fff;
-            border: 1px solid #e0e0e0;
-        }
-    }
-    /* Dark mode */
-    @media (prefers-color-scheme: dark) {
-        body {
-            background-color: #121212;
-            color: #e0e0e0;
-        }
-        .chat-message {
-            background-color: #1e1e1e;
-            border: 1px solid #333;
-        }
+        background-color: #f5f5f5;
+        color: #222;
     }
     /* Chat container styling */
     .chat-container {
@@ -60,24 +39,16 @@ custom_css = """
         padding: 10px;
         border-radius: 8px;
         max-width: 75%;
-        animation: fadeIn 0.5s ease-out;
     }
     .chat-container.user {
         margin-left: auto;
         text-align: right;
+        background-color: #e0e0e0;
     }
     .chat-container.assistant {
         margin-right: auto;
         text-align: left;
-    }
-    /* Fade in animation */
-    @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(10px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
-    /* Chat input styling */
-    .stChatInput {
-        font-size: 1.1em;
+        background-color: #fff;
     }
 </style>
 """
